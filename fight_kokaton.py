@@ -141,16 +141,19 @@ class Bomb:
         screen.blit(self.img, self.rct)
 
 class Explosion:
+    """
+    爆発エフェクトに関するクラス
+    """
     def __init__(self):
-        ex_img = pg.image.load("ex03/fig/explosion.gif")
-        ex_img_2 = pg.transform.flip(ex_img, True, False)
-        ex_list = [ex_img, ex_img_2]
-        explosion = Explosion(3, self.rct.center)
-        life = time.sleep(1)
+        ex_img = pg.image.load("ex03/fig/explosion.gif") #爆発エフェクトの画像の読み込み
+        ex_img_2 = pg.transform.flip(ex_img, True, False) #爆発エフェクトの画像を上下左右に反転
+        ex_list = [ex_img, ex_img_2] #画像リスト
+        explosion = Explosion(3, self.rct.center) #生成場所
+        life = time.sleep(1) #表示時間
 
     def update(self, screen: pg.Surface):
         life -= 1
-        if life % 2 == 0:
+        if life % 2 == 0: #爆発経過時間に応じて画像を切り替える
             Explosion.change_img(ex_list[0], screen)
         else:
             Explosion.change_img(ex_list[1], screen)
@@ -163,7 +166,7 @@ def main():
     bird = Bird(3, (675, 300))
     bombs = [Bomb() for _ in range(NUM_OF_BOMBS)]
     beam = None
-    explo = []
+    explo = [] #Explosion用の空リスト
 
     clock = pg.time.Clock()
     tmr = 0
@@ -191,11 +194,11 @@ def main():
                     # 撃墜＝Noneにする
                     beam = None
                     bombs[i] = None
-                    explosion = Explosion(explosion)
-                    explo.append(explosion)
+                    explosion = Explosion(explosion) #Explosionインスタンス生成
+                    explo.append(explosion) #リストにappend
 
                     pg.explosion
-                    bomb.change_img(ex_img)
+                    bomb.change_img(ex_img) #爆発の描画
                     bird.change_img(6, screen)
                     pg.display.update()
         bombs = [bomb for bomb in bombs if bomb is not None]
