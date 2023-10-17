@@ -140,6 +140,21 @@ class Bomb:
         self.rct.move_ip(self.vx, self.vy)
         screen.blit(self.img, self.rct)
 
+class Explosion:
+    def __init__(self):
+        ex_img = pg.image.load("ex03/fig/explosion.gif")
+        ex_img_2 = pg.transform.flip(ex_img, True, False)
+        ex_list = [ex_img, ex_img_2]
+        explosion = Explosion(3, self.rct.center)
+        life = time.sleep(1)
+
+    def update(self, screen: pg.Surface):
+        life -= 1
+        if life % 2 == 0:
+            Explosion.change_img(ex_list[0], screen)
+        else:
+            Explosion.change_img(ex_list[1], screen)
+
 
 def main():
     pg.display.set_caption("たたかえ！こうかとん")
@@ -148,6 +163,7 @@ def main():
     bird = Bird(3, (675, 300))
     bombs = [Bomb() for _ in range(NUM_OF_BOMBS)]
     beam = None
+    explo = []
 
     clock = pg.time.Clock()
     tmr = 0
@@ -175,6 +191,11 @@ def main():
                     # 撃墜＝Noneにする
                     beam = None
                     bombs[i] = None
+                    explosion = Explosion(explosion)
+                    explo.append(explosion)
+
+                    pg.explosion
+                    bomb.change_img(ex_img)
                     bird.change_img(6, screen)
                     pg.display.update()
         bombs = [bomb for bomb in bombs if bomb is not None]
